@@ -1,0 +1,366 @@
+import { AlertCard } from "@/components/alert-card";
+import Amenities from "@/components/amenities";
+import { Breadcrumbs } from "@/components/bread-crumbs";
+import ContactCard from "@/components/contact-card";
+import ContactSection from "@/components/contact-section";
+import ContentSection from "@/components/content-section";
+import { DynamicCarousel } from "@/components/dynamic-carousel";
+import { FavoriteButton } from "@/components/favorite-button";
+import { Icons } from "@/components/icons";
+import MortgageCalculator from "@/components/mortgage-calculator";
+import PropertyDetailsTable from "@/components/property-details";
+import PropertyFavoritesBanner from "@/components/property-favorite-banner";
+import PropertyInsight from "@/components/property-insight";
+import PropertyListings from "@/components/property-listings";
+import PropertyPlan from "@/components/property-plan";
+import PropertyShowcase from "@/components/property-showcase";
+import SafetyTipsCard from "@/components/safety-tip";
+import { Badge } from "@/components/ui/badge";
+import Shell from "@/layouts/shell";
+import { getUnitDetails } from "@/lib/get-unit-details";
+import { cn, formatNumber } from "@/lib/utils";
+import { BathIcon, BedIcon, ParkingSquare, Square } from "lucide-react";
+import Link from "next/link";
+import ProjectVideo from "../../development-projects/_component/project-video";
+
+export default async function DeveloperUnitPage({
+  params,
+}: {
+  params: Promise<{ unitId: string }>;
+}) {
+  const { unitId } = await params;
+
+  const unitDetails = await getUnitDetails(unitId);
+
+  // Extract unit ID more reliably
+  const match = /-(\d+)$/.exec(unitId);
+
+  if (!match?.[1]) {
+    return (
+      <main>
+        <Shell>
+          <div className="text-center py-10">
+            <h1 className="text-2xl font-bold text-brand-accent">
+              Unit Not Found
+            </h1>
+            <p className="text-brand-muted mt-2">
+              The requested developer unit could not be found.
+            </p>
+          </div>
+        </Shell>
+      </main>
+    );
+  }
+
+  const propertyDetails = [
+    {
+      title: "Type",
+      value: unitDetails.unit.unittypename ?? "Not specified",
+    },
+    { title: "Terms", value: unitDetails.unit.terms ?? "Not specified" },
+    { title: "Location", value: unitDetails.unit.address ?? "Not specified" },
+    {
+      title: "Bedrooms",
+      value: unitDetails.unit.beds?.toString() ?? "Not specified",
+    },
+    {
+      title: "Bathrooms",
+      value: unitDetails.unit.baths?.toString() ?? "Not specified",
+    },
+    {
+      title: "Parking",
+      value: unitDetails.unit.garages?.toString() ?? "Not specified",
+    },
+    {
+      title: "Area",
+      value: unitDetails.unit.floorarea
+        ? `${unitDetails.unit.floorarea} ㎡`
+        : "Not specified",
+    },
+    {
+      title: "Furnished",
+      value: unitDetails.unit.fullyfurnished ? "Yes" : "No",
+    },
+    {
+      title: "Reference",
+      value: unitDetails.unit.unitid.toString(),
+    },
+  ];
+
+  console.log("unitDetails", unitDetails);
+
+  return (
+    <main>
+      <Shell>
+        <div className="space-y-3 mb-3">
+          <Breadcrumbs
+            className="pt-4"
+            segments={[
+              { title: "Home", href: "/" },
+              {
+                title: `For ${unitDetails.unit.terms}`,
+                href: `/properties?contract=${unitDetails.unit.terms}`,
+              },
+              {
+                title: `${unitDetails.unit.unittypename}`,
+                href: `/properties?type=${unitDetails.unit.unittypename}`,
+              },
+              {
+                title: `${unitDetails.unit.city}`,
+                href: `/properties?location=${unitDetails.unit.city}`,
+              },
+            ]}
+            aria-label="Developer unit navigation"
+          />
+          <h1 className="font-bold leading-tight tracking-tighter text-brand-accent lg:leading-[1.1] text-2xl md:text-3xl capitalize">
+            {unitDetails.unit.title || unitDetails.unit.unittypename}
+          </h1>
+        </div>
+      </Shell>
+      <section
+        className="border-b border-brand-badge-ongoing bg-black flex items-center justify-center"
+        aria-label="Unit images"
+      >
+        <DynamicCarousel
+          isDeveloper={typeof unitDetails.unit.unitid === "number"}
+          images={unitDetails.photos.map((photo) => photo.photo)}
+        />
+      </section>
+      <Shell>
+        <div className="grid grid-cols-1 text-brand-accent w-full mt-4 md:grid-cols-[2fr,1fr] lg:gap-8 lg:px-0">
+          <div>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center">
+                <h2 className="text-2xl font-extrabold text-brand-accent lg:text-3xl">
+                  {unitDetails.unit.sellingprice
+                    ? `GH₵ ${formatNumber(unitDetails.unit.sellingprice)}`
+                    : "Price on Request"}
+                </h2>
+              </div>
+              <span className="flex gap-2 md:gap-4 text-xs">
+                <Badge className="uppercase text-white bg-brand-primary">
+                  {unitDetails.unit.terms === "sale" ? "For Sale" : "For Rent"}
+                </Badge>
+                {Boolean(unitDetails.unit.soldout === 0) && (
+                  <Badge className="uppercase text-white bg-green-500">
+                    Available
+                  </Badge>
+                )}
+              </span>
+              <FavoriteButton projectId={Number(unitDetails.unit.unitid)} />
+            </div>
+            <div className="flex items-center gap-4 py-2">
+              <div className="flex items-center gap-1.5 md:gap-4 flex-wrap">
+                {unitDetails.unit.beds ? (
+                  <div className="flex items-center gap-2">
+                    <p className="flex items-center gap-1 text-brand-accent">
+                      <BedIcon className="text-brand-muted" strokeWidth={1.2} />{" "}
+                      {unitDetails.unit.beds} Beds
+                    </p>
+                  </div>
+                ) : null}{" "}
+                {unitDetails.unit.baths ? (
+                  <div className="flex items-center gap-2">
+                    <p className="flex items-center gap-1 text-brand-accent">
+                      <BathIcon
+                        className="text-brand-muted"
+                        strokeWidth={1.2}
+                      />{" "}
+                      {unitDetails.unit.baths} Baths
+                    </p>
+                  </div>
+                ) : null}{" "}
+                {unitDetails.unit.garages ? (
+                  <div className="flex items-center gap-2">
+                    <p className="flex items-center gap-1 text-brand-accent">
+                      <ParkingSquare
+                        className="text-brand-muted"
+                        strokeWidth={1.2}
+                      />{" "}
+                      {unitDetails.unit.garages} Parking
+                    </p>
+                  </div>
+                ) : null}{" "}
+                <div className="flex items-center gap-2">
+                  {unitDetails.unit.floorarea ? (
+                    <p className="flex items-center gap-1 text-brand-accent">
+                      <Square className="text-brand-muted" strokeWidth={1.2} />{" "}
+                      {unitDetails.unit.floorarea} sqm
+                    </p>
+                  ) : null}{" "}
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 mb-6">
+              <Badge className="uppercase text-xs text-blue-500 bg-blue-100/60">
+                {unitDetails.unit.fullyfurnished ? "Furnished" : "Unfurnished"}
+              </Badge>
+              <Badge className="uppercase text-xs text-blue-500 bg-blue-100/60 max-w-[280px] md:max-w-full">
+                <p className="truncate w-full">{unitDetails.unit.address}</p>
+              </Badge>
+            </div>
+            <aside className="mb-6">
+              {unitDetails.photos.length !== 0 && (
+                <div className="flex items-center gap-8 border-y text-sm py-4 lg:py-10 lg:text-base">
+                  <div>
+                    <Icons.trend />
+                  </div>
+                  <div>
+                    <p className="text-brand-accent lg:font-semibold">
+                      This unit is popular
+                    </p>
+                    <p className="text-brand-accent">
+                      <span>{`It's been viewed ${formatNumber(unitDetails.unit.pageviews, { notation: "compact" })} times.`}</span>
+                      <span className="lg:font-semibold">
+                        {" "}
+                        Contact developer before it&apos;s gone!
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              )}
+            </aside>
+            <SafetyTipsCard />
+
+            <ContentSection
+              title="Description"
+              description=""
+              href="/developer-units"
+              className="pt-14 md:pt-20 pb-10 md:pb-0"
+              btnHidden
+            >
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: unitDetails.unit.description,
+                }}
+                className="text-brand-muted"
+              />
+              <span className="block text-gray-500 mt-4">
+                Listed by:{" "}
+                <Link
+                  href={`/developer/${unitDetails.unit.developerid}`}
+                  className="decoration-dashed underline underline-offset-2"
+                >
+                  {unitDetails.unit.companyname}
+                </Link>
+              </span>
+            </ContentSection>
+            <ContentSection
+              title="Explore More"
+              description=""
+              href="/developer-units"
+              className="pt-14 md:pt-20 hidden md:block"
+              btnHidden
+            >
+              <PropertyShowcase
+                images={unitDetails.photos.map((photo) => photo.photo)}
+              />
+            </ContentSection>
+            <PropertyFavoritesBanner
+              propertyId={Number(unitDetails.unit.unitid)}
+              propertyType="listing"
+            />
+
+            <ProjectVideo videoUrl="" />
+
+            <ContentSection
+              title="Project Details"
+              description=""
+              href=""
+              className="pt-14 md:pt-20"
+              btnHidden
+            >
+              <PropertyDetailsTable details={propertyDetails} />
+            </ContentSection>
+
+            {unitDetails.features?.length > 0 ? (
+              <ContentSection
+                title="Amenities"
+                description=""
+                href=""
+                className="pt-14 md:pt-20"
+                btnHidden
+              >
+                <Amenities
+                  amenities={unitDetails.features.map(
+                    (feature) => feature.feature,
+                  )}
+                />
+              </ContentSection>
+            ) : null}
+
+            <ContentSection
+              title="Property Plan"
+              description=""
+              href=""
+              className="pt-14 md:pt-20"
+              btnHidden
+            >
+              <PropertyPlan />
+            </ContentSection>
+
+            <PropertyInsight />
+          </div>
+          <aside className="hidden lg:block">
+            <ContactCard
+              name={unitDetails.unit.companyname}
+              image={unitDetails.unit.logo}
+              src
+            />
+          </aside>
+        </div>
+      </Shell>
+
+      <Shell>
+        <ContentSection
+          title="Mortgage Calculator"
+          description=""
+          href=""
+          className="pt-14 md:pt-20"
+          btnHidden
+        >
+          <MortgageCalculator
+            price={unitDetails.unit.sellingprice.toString()}
+          />
+        </ContentSection>
+      </Shell>
+
+      <ContactSection
+        name={unitDetails.unit.companyname}
+        image={unitDetails.unit.logo}
+        src
+      />
+
+      {unitDetails.similarunits?.length > 0 ? (
+        <ContentSection
+          title="Similar Units"
+          description=""
+          href="/developer-units"
+          className={cn(
+            unitDetails.similarunits.length !== 0 ? "px-0 mb-6" : "px-4",
+            "pt-14 md:pt-20 lg:pt-24  md:block lg:max-w-7xl lg:mx-auto",
+          )}
+        >
+          <PropertyListings
+            listings={unitDetails.similarunits.map((unit) => ({
+              title: unit.title,
+              image: `/${unit.coverphoto}`,
+              detailreq: `unit-${unit.unitid}`,
+              streetaddress: unit.address,
+              garages: unit.garages.toString(),
+              price: unit.sellingprice.toString(),
+              contract: unit.terms,
+              bathroomcount: unit.baths.toString(),
+              bedroomcount: unit.beds.toString(),
+            }))}
+            parentContract={unitDetails.unit.terms}
+          />
+        </ContentSection>
+      ) : (
+        <Shell>
+          <AlertCard className="my-10" />
+        </Shell>
+      )}
+    </main>
+  );
+}
