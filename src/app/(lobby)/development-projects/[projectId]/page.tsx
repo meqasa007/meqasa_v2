@@ -1,5 +1,5 @@
 import { Breadcrumbs } from "@/components/bread-crumbs";
-import { FavoriteButton } from "@/components/favorite-button";
+import { AddFavoriteButton } from "@/components/add-favorite-button";
 import { Badge } from "@/components/ui/badge";
 import Shell from "@/layouts/shell";
 import { CheckCircle, MapPin } from "lucide-react";
@@ -47,21 +47,21 @@ export default async function DeveloperProjectPage({
         />
       </Shell>
       {/* <ProjectCarousel photos={projectData.photos} /> */}
-      <div className="relative w-full h-[450px] overflow-hidden flex mb-4 ">
+      <div className="relative w-full h-[250px] md:h-[450px] overflow-hidden flex mb-4 ">
         {/* Background Image */}
         <Image
           src={`https://meqasa.com/uploads/imgs/${projectData.project.photo}`}
           alt="Office building"
           fill
           sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
-          className="object-cover "
+          className="object-cover"
           unoptimized
           priority
         />
 
         <div className="absolute bottom-0 left-0 w-full h-52 bg-gradient-to-t from-black to-transparent"></div>
       </div>
-      <Shell>
+      <Shell className="px-0">
         <div className="h-fit w-full bg-inherit">
           <div className="relative z-10 flex items-end gap-2 p-3 lg:container lg:-top-14 lg:gap-8 lg:px-0">
             {/* Company Logo Card */}
@@ -102,7 +102,7 @@ export default async function DeveloperProjectPage({
               </div>
 
               <div className="flex items-center gap-2">
-                <FavoriteButton projectId={Number(id)} />
+                {/* <AddFavoriteButton projectId={Number(id)} variant="button" /> */}
                 <BrochureDialog
                   className="hidden rounded-md md:flex items-center justify-center bg-brand-accent font-semibold hover:bg-brand-accent "
                   showIcon

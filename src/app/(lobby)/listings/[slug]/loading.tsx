@@ -21,8 +21,8 @@ export default function ListingLoading() {
       </Shell>
 
       {/* Image carousel skeleton */}
-      <section className="border-b border-brand-badge-ongoing bg-black min-h-[400px] flex items-center justify-center">
-        <Skeleton className="w-full h-[400px]" />
+      <section className="border-b border-brand-badge-ongoing bg-black min-h-[200px] md:min-h-[400px] flex items-center justify-center">
+        <Skeleton className="w-full h-[200px] md:h-[400px]" />
       </section>
 
       <Shell>

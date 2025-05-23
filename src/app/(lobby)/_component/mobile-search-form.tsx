@@ -1,6 +1,6 @@
 "use client";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { MapPin, Search } from "lucide-react";
+import { MapPin, Search, SearchIcon } from "lucide-react";
 // import { useState } from "react";
 
 import QuickLinks from "@/components/quick-links";
@@ -26,10 +26,10 @@ export default function MobileSearchForm() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="md:hidden flex justify-between items-center bg-white shadow-elegant border-rose-300 border w-[80%] mx-auto rounded-xl mt-4 px-4 py-2">
+        <div className="lgs:hidden flex justify-between items-center bg-white shadow-elegant border-rose-300 border w-[80%] mx-auto rounded-xl mt-4 px-4 py-2">
           <div className="flex items-center gap-2">
-            <MapPin size={18} className=" text-gray-400" />
-            <p className="text-gray-400">Enter Location</p>
+            <SearchIcon size={18} className=" text-gray-400" />
+            <p className="text-brand-muted text-sm">Enter Location</p>
           </div>
           <Button className="bg-[#f93a5d] hover:bg-[#f93a5d]/90 cursor-pointer">
             Search

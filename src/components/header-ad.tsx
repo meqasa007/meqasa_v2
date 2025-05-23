@@ -9,7 +9,7 @@ export default async function HeaderAd() {
 
   return (
     <div
-      className="border-b py-[10px] lg:flex"
+      className="border-b py-[10px] hidden lg:flex"
       role="banner"
       aria-label="Header advertisement"
     >

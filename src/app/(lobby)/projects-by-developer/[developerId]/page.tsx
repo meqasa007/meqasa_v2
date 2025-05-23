@@ -17,9 +17,12 @@ export default async function DeveloperProfilePage({
   const id = developerId.toString().split("-")[
     developerId.toString().split("-").length - 1
   ];
+  
 
   // get developer profile
   const developer = await getDeveloperProfile(Number(id));
+  console.log(id);
+  console.log(developer);
 
   return (
     <main>

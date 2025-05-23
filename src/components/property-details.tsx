@@ -92,11 +92,8 @@ export default function PropertyDetailsTable({
           {filteredDetails.map((detail, index) => (
             <tr
               key={`${detail.title}-${index}`}
-              className={`flex items-center justify-between border-b first-of-type:border-t ${
-                alternateRowColors && index % 2 === 1
-                  ? "bg-gray-50"
-                  : "bg-white"
-              }`}
+              className={`flex items-center justify-between border-b first-of-type:border-t 
+                  bg-white`}
             >
               <td
                 className="py-6 whitespace-nowrap text-brand-accent font-semibold"
@@ -104,7 +101,7 @@ export default function PropertyDetailsTable({
               >
                 {detail.title}
               </td>
-              <td className="py-6 whitespace-nowrap text-brand-muted">
+              <td className="py-6 whitespace-nowrap text-brand-muted capitalize">
                 {formatValue(detail)}
               </td>
             </tr>

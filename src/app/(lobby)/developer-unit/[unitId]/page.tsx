@@ -5,7 +5,7 @@ import ContactCard from "@/components/contact-card";
 import ContactSection from "@/components/contact-section";
 import ContentSection from "@/components/content-section";
 import { DynamicCarousel } from "@/components/dynamic-carousel";
-import { FavoriteButton } from "@/components/favorite-button";
+import { AddFavoriteButton } from "@/components/add-favorite-button";
 import { Icons } from "@/components/icons";
 import MortgageCalculator from "@/components/mortgage-calculator";
 import PropertyDetailsTable from "@/components/property-details";
@@ -87,7 +87,7 @@ export default async function DeveloperUnitPage({
     },
   ];
 
-  console.log("unitDetails", unitDetails);
+  console.log("unitDetails", unitDetails.similarunits);
 
   return (
     <main>
@@ -124,6 +124,7 @@ export default async function DeveloperUnitPage({
         <DynamicCarousel
           isDeveloper={typeof unitDetails.unit.unitid === "number"}
           images={unitDetails.photos.map((photo) => photo.photo)}
+          unitId={Number(unitDetails.unit.unitid)}
         />
       </section>
       <Shell>
@@ -138,7 +139,7 @@ export default async function DeveloperUnitPage({
                 </h2>
               </div>
               <span className="flex gap-2 md:gap-4 text-xs">
-                <Badge className="uppercase text-white bg-brand-primary">
+                <Badge className="uppercase text-white bg-brand-primary hidden md:block">
                   {unitDetails.unit.terms === "sale" ? "For Sale" : "For Rent"}
                 </Badge>
                 {Boolean(unitDetails.unit.soldout === 0) && (
@@ -147,7 +148,7 @@ export default async function DeveloperUnitPage({
                   </Badge>
                 )}
               </span>
-              <FavoriteButton projectId={Number(unitDetails.unit.unitid)} />
+              <AddFavoriteButton listingId={Number(unitDetails.unit.unitid)} />
             </div>
             <div className="flex items-center gap-4 py-2">
               <div className="flex items-center gap-1.5 md:gap-4 flex-wrap">
@@ -338,21 +339,11 @@ export default async function DeveloperUnitPage({
           href="/developer-units"
           className={cn(
             unitDetails.similarunits.length !== 0 ? "px-0 mb-6" : "px-4",
-            "pt-14 md:pt-20 lg:pt-24  md:block lg:max-w-7xl lg:mx-auto",
+            "pt-14 md:pt-20 lg:pt-24  md:block lg:max-w-7xl lg:mx-auto [&_p]:px-4 [&_h2]:px-4",
           )}
         >
           <PropertyListings
-            listings={unitDetails.similarunits.map((unit) => ({
-              title: unit.title,
-              image: `/${unit.coverphoto}`,
-              detailreq: `unit-${unit.unitid}`,
-              streetaddress: unit.address,
-              garages: unit.garages.toString(),
-              price: unit.sellingprice.toString(),
-              contract: unit.terms,
-              bathroomcount: unit.baths.toString(),
-              bedroomcount: unit.beds.toString(),
-            }))}
+            listings={unitDetails.similarunits}
             parentContract={unitDetails.unit.terms}
           />
         </ContentSection>

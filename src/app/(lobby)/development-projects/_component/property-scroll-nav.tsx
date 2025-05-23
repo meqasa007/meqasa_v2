@@ -113,7 +113,7 @@ export default function PropertyScrollNav({
       ref={navRef}
       aria-label="Property sections navigation"
       className={cn(
-        "sticky top-16 z-10 w-full bg-white border-y transition-all duration-200",
+        "sticky top-16 z-10 w-ful overflow-scroll bg-white border-y transition-all duration-200",
         isSticky && "shadow-sm",
       )}
     >
@@ -136,7 +136,7 @@ export default function PropertyScrollNav({
                     }
                   }}
                   className={cn(
-                    "flex items-center px-6 py-4 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-offset-2",
+                    "flex items-center whitespace-nowrap flex-shrink-0 px-6 py-4 font-medium transition-colors",
                     activeSection === item.id
                       ? "text-brand-blue border-b-2 border-brand-blue"
                       : "text-brand-muted hover:text-brand-blue",

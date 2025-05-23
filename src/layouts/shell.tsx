@@ -1,10 +1,19 @@
 import React from "react";
+import { cn } from "@/lib/utils";
 
-export default function Shell({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+interface ShellProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export default function Shell({ children, className }: Readonly<ShellProps>) {
   return (
-    <section className="w-full lg:mx-auto flex lg:max-w-6xl px-4 md:px-0">
+    <section
+      className={cn(
+        "w-full mx-auto px-4 md:max-w-[720px] lg:max-w-[960px] xl:max-w-[1140px] 2xl:max-w-[1320px]",
+        className,
+      )}
+    >
       {children}
     </section>
   );

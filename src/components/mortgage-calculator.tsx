@@ -15,8 +15,8 @@ interface MortgageBreakdown {
   interestPayment: number;
 }
 
-const MortgageCalculator: React.FC = () => {
-  const [propertyPrice, setPropertyPrice] = useState<number>(777600);
+export default function MortgageCalculator({ price }: { price: string }) {
+  const [propertyPrice, setPropertyPrice] = useState<number>(+price);
   const [downPayment, setDownPayment] = useState<number>(0);
   const [tenure, setTenure] = useState<number>(10);
   const [interestRate, setInterestRate] = useState<number>(18);
@@ -92,108 +92,118 @@ const MortgageCalculator: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto py-10 px-4 max-w-6xl">
+    <div className="container max-w-6xl">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left Column - Inputs */}
         <Card className="shadow-sm">
-          <CardContent className="pt-6">
-            <div className="space-y-6">
-              <div className="space-y-2">
-                <Label htmlFor="propertyPrice">Property Price</Label>
-                <div className="flex">
-                  <span className="inline-flex items-center px-3 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md">
-                    GH₵
-                  </span>
-                  <Input
-                    id="propertyPrice"
-                    type="number"
-                    value={propertyPrice}
-                    onChange={handlePropertyPriceChange}
-                    className="rounded-l-none"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="downPayment">Down Payment</Label>
-                <div className="flex">
-                  <span className="inline-flex items-center px-3 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md">
-                    GH₵
-                  </span>
-                  <Input
-                    id="downPayment"
-                    type="number"
-                    value={downPayment}
-                    onChange={handleDownPaymentChange}
-                    className="rounded-l-none"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <Label htmlFor="tenure">Tenure (yrs)</Label>
-                  <div className="flex items-center">
-                    <Input
-                      id="tenureInput"
-                      type="number"
-                      value={tenure}
-                      onChange={handleTenureChange}
-                      className="w-20 h-8 mr-2"
-                      min={1}
-                      max={30}
-                    />
-                    <span className="text-sm bg-gray-100 px-3 py-1 rounded-md">
-                      yrs
+          <CardContent className="pt-0 px-3 h-full">
+            <div className="flex flex-col justify-between h-full ">
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <Label htmlFor="propertyPrice" className="text-brand-accent">
+                    Property Price
+                  </Label>
+                  <div className="flex">
+                    <span className="inline-flex items-center px-3 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md text-brand-muted">
+                      GH₵
                     </span>
+                    <Input
+                      id="propertyPrice"
+                      type="number"
+                      value={propertyPrice}
+                      onChange={handlePropertyPriceChange}
+                      className="rounded-l-none text-brand-accent"
+                    />
                   </div>
                 </div>
-                <Slider
-                  id="tenure"
-                  min={1}
-                  max={30}
-                  step={1}
-                  value={[tenure]}
-                  onValueChange={(value) => setTenure(value[0] ?? tenure)}
-                  className="my-4"
-                />
-              </div>
 
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <Label htmlFor="interest">Interest (%)</Label>
-                  <div className="flex items-center">
-                    <Input
-                      id="interestInput"
-                      type="number"
-                      value={interestRate}
-                      onChange={handleInterestRateChange}
-                      className="w-20 h-8 mr-2"
-                      min={0}
-                      max={30}
-                      step={0.1}
-                    />
-                    <span className="text-sm bg-gray-100 px-3 py-1 rounded-md">
-                      %
+                <div className="space-y-2">
+                  <Label htmlFor="downPayment" className="text-brand-accent">
+                    Down Payment
+                  </Label>
+                  <div className="flex">
+                    <span className="inline-flex items-center px-3 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md text-brand-muted">
+                      GH₵
                     </span>
+                    <Input
+                      id="downPayment"
+                      type="number"
+                      value={downPayment}
+                      onChange={handleDownPaymentChange}
+                      className="rounded-l-none text-brand-accent"
+                    />
                   </div>
                 </div>
-                <Slider
-                  id="interest"
-                  min={0}
-                  max={30}
-                  step={0.1}
-                  value={[interestRate]}
-                  onValueChange={(value) =>
-                    setInterestRate(value[0] ?? interestRate)
-                  }
-                  className="my-4"
-                />
+
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <Label htmlFor="tenure" className="text-brand-accent">
+                      Tenure (yrs)
+                    </Label>
+                    <div className="flex items-center">
+                      <Input
+                        id="tenureInput"
+                        type="number"
+                        value={tenure}
+                        onChange={handleTenureChange}
+                        className="w-20 h-8 mr-2 text-brand-accent"
+                        min={1}
+                        max={30}
+                      />
+                      <span className="text-sm bg-gray-100 px-3 py-1 rounded-md text-brand-muted">
+                        yrs
+                      </span>
+                    </div>
+                  </div>
+                  <Slider
+                    id="tenure"
+                    min={1}
+                    max={30}
+                    step={1}
+                    value={[tenure]}
+                    onValueChange={(value) => setTenure(value[0] ?? tenure)}
+                    className="my-4"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <Label htmlFor="interest" className="text-brand-accent">
+                      Interest (%)
+                    </Label>
+                    <div className="flex items-center">
+                      <Input
+                        id="interestInput"
+                        type="number"
+                        value={interestRate}
+                        onChange={handleInterestRateChange}
+                        className="w-20 h-8 mr-2 text-brand-accent"
+                        min={0}
+                        max={30}
+                        step={0.1}
+                      />
+                      <span className="text-sm bg-gray-100 px-3 py-1 rounded-md text-brand-muted">
+                        %
+                      </span>
+                    </div>
+                  </div>
+                  <Slider
+                    id="interest"
+                    min={0}
+                    max={30}
+                    step={0.1}
+                    value={[interestRate]}
+                    onValueChange={(value) =>
+                      setInterestRate(value[0] ?? interestRate)
+                    }
+                    className="my-4"
+                  />
+                </div>
               </div>
 
               <div className="bg-blue-50 p-4 rounded-lg border border-blue-100 mt-4 flex gap-3">
                 <InfoIcon className="text-blue-500 h-5 w-5 flex-shrink-0 mt-0.5" />
-                <p className="text-sm text-slate-700">
+                <p className="text-xs md:text-sm text-brand-muted">
                   Adjust the sliders to see how different loan terms and
                   interest rates affect your monthly payments. The calculator
                   helps you plan your mortgage by showing both principal and
@@ -206,10 +216,12 @@ const MortgageCalculator: React.FC = () => {
 
         {/* Right Column - Results */}
         <Card className="shadow-sm">
-          <CardContent className="pt-6">
+          <CardContent className="pt-0 px-3">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-lg font-medium">Mortgage Breakdown</h2>
-              <span className="text-sm">
+              <h2 className="text-lg font-medium text-brand-accent">
+                Mortgage Breakdown
+              </h2>
+              <span className="text-sm text-brand-muted">
                 at {interestRate.toFixed(1)}% interest rate
               </span>
             </div>
@@ -228,10 +240,10 @@ const MortgageCalculator: React.FC = () => {
                   />
                 </svg>
                 <div className="circle-chart-value absolute inset-0 flex flex-col items-center justify-center">
-                  <div className="font-bold text-xl">
+                  <div className="font-bold text-xl text-brand-accent">
                     {formatCurrency(breakdown.loanAmount)}
                   </div>
-                  <div className="text-xs text-gray-500">
+                  <div className="text-xs text-brand-muted">
                     Loan Amount (100%)
                   </div>
                 </div>
@@ -263,43 +275,45 @@ const MortgageCalculator: React.FC = () => {
                   />
                 </svg>
                 <div className="circle-chart-value absolute inset-0 flex flex-col items-center justify-center">
-                  <div className="font-bold text-xl">
+                  <div className="font-bold text-xl text-brand-accent">
                     {formatCurrency(breakdown.monthlyPayment)}
                   </div>
-                  <div className="text-xs text-gray-500">/month</div>
+                  <div className="text-xs text-brand-muted">/month</div>
                 </div>
               </div>
             </div>
 
             <div className="mt-8">
               <div className="flex justify-between items-center mb-2">
-                <span className="text-sm text-gray-600">
+                <span className="text-sm text-brand-muted">
                   Down Payment (
                   {((downPayment / propertyPrice) * 100).toFixed(0)}%)
                 </span>
-                <span className="font-medium">
+                <span className="font-medium text-brand-accent">
                   {formatCurrency(downPayment)}
                 </span>
               </div>
 
               <div className="mt-6">
-                <h3 className="text-base mb-3">Monthly Payment</h3>
+                <h3 className="text-base mb-3 text-brand-accent">
+                  Monthly Payment
+                </h3>
                 <div className="bg-slate-50 rounded-lg p-4 border border-slate-100">
                   <div className="flex justify-between items-center space-x-2">
                     <div className="flex items-center">
                       <span className="h-3 w-3 rounded-full bg-[#ff99b6] mr-2"></span>
-                      <span>Principal</span>
+                      <span className="text-brand-muted">Principal</span>
                     </div>
-                    <span className="font-medium">
+                    <span className="font-medium text-brand-accent">
                       {formatCurrency(breakdown.principalPayment)}
                     </span>
                   </div>
                   <div className="flex justify-between items-center mt-2 space-x-2">
                     <div className="flex items-center">
                       <span className="h-3 w-3 rounded-full bg-[#4361ee] mr-2"></span>
-                      <span>Interest</span>
+                      <span className="text-brand-muted">Interest</span>
                     </div>
-                    <span className="font-medium">
+                    <span className="font-medium text-brand-accent">
                       {formatCurrency(breakdown.interestPayment)}
                     </span>
                   </div>
@@ -311,9 +325,7 @@ const MortgageCalculator: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default MortgageCalculator;
+}
 
 // import type { ReactNode } from "react";
 // import React from "react";

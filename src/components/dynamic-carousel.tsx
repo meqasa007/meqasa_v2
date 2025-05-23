@@ -13,11 +13,13 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { ImageCarouselModal } from "@/components/image-carousel-modal";
+import { AddFavoriteButton } from "@/components/add-favorite-button";
 
 interface CarouselProps {
   isDeveloper?: boolean;
   images?: string[];
   cloudfrontDomain?: string;
+  unitId?: number;
 }
 
 const getImageUrl = (imagePath: string, cloudfrontDomain: string) => {
@@ -39,11 +41,13 @@ const CarouselSlide = ({
   isDeveloper,
   index,
   onImageClick,
+  unitId,
 }: {
   image: string;
   isDeveloper?: boolean;
   index: number;
   onImageClick: () => void;
+  unitId?: number;
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -78,8 +82,8 @@ const CarouselSlide = ({
       aria-label={`Slide ${index + 1}`}
     >
       <div>
-        <Card className="h-[280px] rounded-none border-0 py-0 shadow-none lg:max-h-[400px] lg:min-h-[400px]">
-          <CardContent className="flex items-center justify-center p-0 relative">
+        <Card className="h-[280px] w-full rounded-none border-0 py-0 shadow-none lg:max-h-[400px] lg:min-h-[400px]">
+          <CardContent className="flex items-center justify-center p-0 relative w-full h-full">
             {hasError ? (
               <div className="flex h-full w-full items-center justify-center bg-gray-100 text-gray-500">
                 Failed to load image
@@ -87,13 +91,13 @@ const CarouselSlide = ({
             ) : (
               <>
                 {isLoading && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+                  <div className="absolute inset-0 flex h-full w-full items-center justify-center bg-gray-100">
                     <div className="h-8 w-8 animate-spin rounded-full border-4 border-orange-400 border-t-transparent" />
                   </div>
                 )}
                 <button
                   onClick={onImageClick}
-                  className="w-full h-full focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-offset-2"
+                  className="w-full h-full "
                   aria-label={`View image ${index + 1} in full screen`}
                 >
                   <Image
@@ -102,10 +106,10 @@ const CarouselSlide = ({
                     width={1800}
                     height={420}
                     className={cn(
-                      "h-[400px] w-full cursor-pointer object-cover transition-opacity duration-300",
+                      "h-full w-full cursor-pointer object-cover transition-opacity duration-300",
                       isLoading ? "opacity-0" : "opacity-100",
                     )}
-                    sizes="400px"
+                    sizes="(max-width: 768px) 100vw, 400px"
                     priority={index === 0}
                     onLoad={handleImageLoad}
                     onError={handleImageError}
@@ -125,6 +129,7 @@ export function DynamicCarousel({
   isDeveloper,
   images = [],
   cloudfrontDomain = "https://dve7rykno93gs.cloudfront.net",
+  unitId,
 }: CarouselProps) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
@@ -183,6 +188,7 @@ export function DynamicCarousel({
         isDeveloper={isDeveloper}
         index={i}
         onImageClick={() => handleImageClick(i)}
+        unitId={unitId}
       />
     ))
   ) : (
@@ -217,6 +223,9 @@ export function DynamicCarousel({
         onKeyDown={handleKeyDown}
         tabIndex={0}
       >
+        <div className="absolute top-4 right-4 z-50">
+          <AddFavoriteButton listingId={unitId ?? 0} />
+        </div>
         <div aria-live="polite" className="sr-only">
           Slide {current} of {count}
         </div>

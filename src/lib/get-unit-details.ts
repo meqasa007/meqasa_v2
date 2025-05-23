@@ -11,7 +11,7 @@ interface UnitFeature {
   ufid: string;
 }
 
-interface SimilarUnit {
+export interface SimilarUnit {
   unitid: number;
   terms: string;
   unittype: string;

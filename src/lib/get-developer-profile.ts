@@ -11,18 +11,17 @@ import type { DeveloperDetails } from "@/types";
  * @throws An error if the request fails or the server returns an error.
  */
 export async function getDeveloperProfile(
-  projectId: number,
+  developerId: number,
 ): Promise<DeveloperDetails> {
-  const url = `https://meqasa.com/developer-developer/${projectId}`;
+  const url = `https://meqasa.com/developer-developer/${developerId}?app=vercel`;
+  console.log(url);
+  console.log(developerId);
 
   return await apiFetch<DeveloperDetails>({
     url,
     method: "GET",
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    params: {
-      app: "vercel",
+      "Content-Type": "application/x-www-form-urlencoded", // Set content type to x-www-form-urlencoded
     },
   });
 }

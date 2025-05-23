@@ -11,15 +11,15 @@ import {
 import { useEffect, useState } from "react";
 import type { Listing } from "./property-card";
 import PropertyCard from "./property-card";
-import type { Unit } from "./unit-card";
 import UnitCard from "./unit-card";
 import type { ListingDetails } from "@/types";
+import type { SimilarUnit } from "@/lib/get-unit-details";
 
 export default function PropertyListings({
   listings,
   parentContract,
 }: {
-  listings: Listing[] | Unit[] | ListingDetails[];
+  listings: Listing[] | SimilarUnit[] | ListingDetails[];
   parentContract?: string;
 }) {
   const [api, setApi] = useState<CarouselApi>();

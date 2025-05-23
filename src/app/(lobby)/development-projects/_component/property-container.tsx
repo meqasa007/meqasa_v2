@@ -90,7 +90,7 @@ export default function PropertyContainer({
       {/* Pass the section refs to both components */}
       <PropertyScrollNav sectionRefs={sectionRefs} />
 
-      <Shell>
+      <Shell className="px-0">
         <div className="grid grid-cols-1 text-brand-accent w-full mt-12 md:grid-cols-[2fr,1fr] lg:gap-8 lg:px-0">
           <div className="mt-6 grid gap-8 px-3 pb-3 transition-all duration-300 ease-in lg:container lg:grid-cols-1 lg:p-0">
             <div>
@@ -122,7 +122,7 @@ export default function PropertyContainer({
                 <div className="mb-2 text-sm">
                   <span className="flex items-center font-light text-inherit">
                     {projectType} <Dot className="h-4 w-4" />{" "}
-                    <span className=" uppercase">
+                    <span className=" uppercase line-clamp-1">
                       {unityTypes.map((type) => type)}
                     </span>
                   </span>
@@ -280,11 +280,11 @@ export default function PropertyContainer({
         image={`${"developer?.developer?.logo"}`}
         src
       />
-      <Shell>
+      {/* <Shell> */}
         <div
           id="available-units"
           ref={sectionRefs["available-units"]}
-          className="py-16 w-full"
+          className="w-full"
         >
           {projectData.units.length !== 0 ? (
             <ContentSection
@@ -293,7 +293,7 @@ export default function PropertyContainer({
               href="/listings"
               className={cn(
                 projectData.units.length !== 0 ? "px-0 mb-6" : "px-4",
-                "pt-14 md:pt-20 lg:pt-24  md:block lg:max-w-7xl lg:mx-auto",
+                "pt-14 md:pt-20 lg:pt-24  md:block lg:max-w-7xl lg:mx-auto [&_p]:px-4 [&_h2]:px-4",
               )}
             >
               <PropertyListings
@@ -315,7 +315,7 @@ export default function PropertyContainer({
             </Shell>
           )}
         </div>
-      </Shell>
+      {/* </Shell> */}
     </>
   );
 }

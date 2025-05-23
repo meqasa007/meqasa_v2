@@ -61,7 +61,7 @@ function LobbyContent({
     <main>
       <div className="relative">
         <div
-          className="max-h-[305px] h-[305px] relative bg-contain bg-center"
+          className="hidden lg:block max-h-[305px] h-[305px] relative bg-contain bg-center"
           style={{
             backgroundImage: `url(https://dve7rykno93gs.cloudfront.net${heroBanner.src})`,
           }}
@@ -83,44 +83,49 @@ function LobbyContent({
           speed="normal"
         />
       </div>
-      <Shell>
-        <div className="w-full lg:p-4">
+
+      <div className="w-full lg:p-4">
+        <Shell>
           <GridAd flexiBanner={flexiBanner} />
-          <ContentSection
-            title="Featured Projects"
-            description="View all featured properties"
-            href="/properties"
-            className="pt-14 md:pt-20 lg:pt-24"
-          >
-            <FeaturedProjectsCarousel
-              properties={featuredProjects.slice(0, 3)}
-              delay={7000}
-            />
-            <br />
-            <FeaturedProjectsCarousel
-              properties={featuredProjects.slice(3, 6)}
-              delay={5000}
-            />
-          </ContentSection>
-          <ContentSection
-            title="Latest Listings"
-            description="View all recent property listings available."
-            href="/listings"
-            className="pt-14 md:pt-20 lg:pt-24"
-          >
-            <LatestListingsTab
-              rentListings={latestListingsForRent}
-              saleListings={latestListingsForSale}
-            />
-          </ContentSection>
-          <ContentSection
-            title="Featured Listings"
-            description="View all featured property listings available."
-            href="/listings"
-            className="pt-14 md:pt-20 lg:pt-24"
-          >
-            <PropertyListings listings={featuredListings} />
-          </ContentSection>
+        </Shell>
+
+        <ContentSection
+          title="Featured Projects"
+          description="View all featured properties"
+          href="/properties"
+          className="pt-14 md:pt-20 lg:pt-24 w-full mx-auto [&_p]:px-4 [&_h2]:px-4 md:max-w-[720px] lg:max-w-[960px] xl:max-w-[1140px] 2xl:max-w-[1320px]"
+        >
+          <FeaturedProjectsCarousel
+            properties={featuredProjects.slice(0, 3)}
+            delay={7000}
+          />
+          <br />
+          <FeaturedProjectsCarousel
+            properties={featuredProjects.slice(3, 6)}
+            delay={5000}
+          />
+        </ContentSection>
+
+        <ContentSection
+          title="Latest Listings"
+          description="View all recent property listings available."
+          href="/listings"
+          className="pt-14 md:pt-20 lg:pt-24 [&_p]:px-4 [&_h2]:px-4 w-full mx-auto md:max-w-[720px] lg:max-w-[960px] xl:max-w-[1140px] 2xl:max-w-[1320px]"
+        >
+          <LatestListingsTab
+            rentListings={latestListingsForRent}
+            saleListings={latestListingsForSale}
+          />
+        </ContentSection>
+        <ContentSection
+          title="Featured Listings"
+          description="View all featured property listings available."
+          href="/listings"
+          className="pt-14 md:pt-20 lg:pt-24 [&_p]:px-4 [&_h2]:px-4 w-full mx-auto md:max-w-[720px] lg:max-w-[960px] xl:max-w-[1140px] 2xl:max-w-[1320px]"
+        >
+          <PropertyListings listings={featuredListings} />
+        </ContentSection>
+        <Shell>
           <div className="lg:flex flex-col md:flex-row gap-6">
             <ContentSection
               title="Property Guides & Insights"
@@ -161,28 +166,38 @@ function LobbyContent({
               </div>
             </aside>
           </div>
-          <ContentSection
-            title="Choice Neighborhoods"
-            description="These neighborhoods are highly desirable for business, living, and pleasure. Find out why!"
-            href="/"
-            className="pt-14 md:pt-20 lg:pt-24 flex-[2]"
+        </Shell>
+
+        <ContentSection
+          title="Choice Neighborhoods"
+          description="These neighborhoods are highly desirable for business, living, and pleasure. Find out why!"
+          href="/"
+          className="pt-14 md:pt-20 lg:pt-24 flex-[2] [&_p]:px-4 [&_h2]:px-4 w-full mx-auto md:max-w-[720px] lg:max-w-[960px] xl:max-w-[1140px] 2xl:max-w-[1320px]"
+        >
+          <div
+            className="overflow-x-auto"
+            role="region"
+            aria-label="Neighborhoods"
           >
-            <div
-              className="overflow-x-auto"
-              role="region"
-              aria-label="Neighborhoods"
-            >
-              <div className="grid grid-cols-[1fr_1fr_1fr_1fr] gap-3 lg:grid-cols-4 lg:gap-8">
-                {location.map((item, i) => (
-                  <LocationCard {...item} key={i} />
-                ))}
-              </div>
+            <div className="flex gap-3 lg:grid lg:grid-cols-4 lg:gap-8 overflow-x-auto pb-4">
+              {location.map((item, i) => (
+                <div
+                  className={`w-[calc((100vw-48px)/2)] min-w-[280px] flex-none lg:w-auto h-full ${i === 0 ? "pl-4" : ""} ${i === location.length - 1 ? "pr-4" : ""}`}
+                  key={i}
+                >
+                  <div className="h-full">
+                    <LocationCard {...item} />
+                  </div>
+                </div>
+              ))}
             </div>
-          </ContentSection>
+          </div>
+        </ContentSection>
+        <Shell className="md:px-0">
           <SeoText />
           <AppPromotion />
-        </div>
-      </Shell>
+        </Shell>
+      </div>
     </main>
   );
 }

@@ -15,14 +15,14 @@ export default function MobilePageHeader() {
       aria-label="Mobile property search header"
     >
       <PageHeaderHeading
-        className="animate-fade-up text-accent-foreground"
+        className="animate-fade-up text-brand-accent"
         style={{ animationDelay: "0.20s", animationFillMode: "both" }}
         as="h1"
       >
         Find Your Dream Home
       </PageHeaderHeading>
       <PageHeaderDescription
-        className="max-w-[46.875rem] animate-fade-up"
+        className="max-w-[46.875rem] animate-fade-up text-brand-muted"
         style={{ animationDelay: "0.30s", animationFillMode: "both" }}
       >
         Discover the perfect property tailored to your lifestyle and preference

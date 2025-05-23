@@ -7,6 +7,7 @@ import ContactCard from "@/components/contact-card";
 import ContactSection from "@/components/contact-section";
 import ContentSection from "@/components/content-section";
 import { DynamicCarousel } from "@/components/dynamic-carousel";
+import { AddFavoriteButton } from "@/components/add-favorite-button";
 import { Icons } from "@/components/icons";
 import LeaseOptions from "@/components/lease-option";
 import MortgageCalculator from "@/components/mortgage-calculator";
@@ -137,7 +138,7 @@ export default async function DetailsPage({
               <span className="flex gap-2 md:gap-4 text-xs">
                 {listingDetail.owner.verification === "approved" ||
                 listingDetail.owner.verification === "approved2" ? (
-                  <Badge className="uppercase text-white bg-green-500">
+                  <Badge className="hidden md:block uppercase text-white bg-green-500">
                     Verified
                   </Badge>
                 ) : null}
@@ -277,7 +278,7 @@ export default async function DetailsPage({
               title="Explore More"
               description=""
               href="/listings"
-              className="pt-14 md:pt-20 hidden md:block"
+              className="pt-14 md:pt-20"
               btnHidden
             >
               <PropertyShowcase images={listingDetail?.imagelist} />
@@ -371,7 +372,7 @@ export default async function DetailsPage({
           href="/listings"
           className={cn(
             listingDetail.similars.length !== 0 ? "px-0 mb-6" : "px-4",
-            "pt-14 md:pt-20 lg:pt-24  md:block lg:max-w-7xl lg:mx-auto",
+            "pt-14 md:pt-20 lg:pt-24  md:block lg:max-w-7xl lg:mx-auto [&_p]:px-4 [&_h2]:px-4",
           )}
         >
           <PropertyListings

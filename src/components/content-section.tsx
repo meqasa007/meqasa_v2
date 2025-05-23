@@ -73,7 +73,7 @@ export default function ContentSection({
           <h2
             id={`${uniqueId}-title`}
             className={cn(
-              "font-bold leading-tight tracking-tighter text-brand-accent text-xl lg:text-[28px]",
+              " font-bold leading-tight tracking-tighter text-brand-accent text-xl lg:text-[28px]",
               !btnHidden && "lg:font-extrabold",
             )}
           >

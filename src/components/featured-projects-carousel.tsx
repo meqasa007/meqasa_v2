@@ -33,7 +33,7 @@ export default function FeaturedProjectsCarousel({
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [emblaRef, emblaApi] = useEmblaCarousel({
-    align: "start",
+    align: "center",
     loop: true,
   });
   const plugin = useRef(
@@ -105,14 +105,14 @@ export default function FeaturedProjectsCarousel({
         role="region"
       >
         <CarouselContent
-          className="p-1 lg:pt-4"
+          className="-ml-1 p-1 lg:pt-4"
           role="list"
           aria-label="Featured Projects List"
         >
           {properties.map((item, index) => (
             <CarouselItem
               key={item.projectid}
-              className="basis-[350px] md:basis-[500px] lg:basis-[600px]"
+              className="basis-[350px] md:basis-[500px] lg:basis-[600px] pl-4"
               role="listitem"
               aria-label={`Featured Project ${index + 1} of ${properties.length}`}
             >
@@ -121,7 +121,7 @@ export default function FeaturedProjectsCarousel({
           ))}
         </CarouselContent>
         <div
-          className="absolute right-16 top-8 flex gap-4 w-8"
+          className="absolute right-16 top-8 hidden md:flex gap-4 w-8"
           role="navigation"
           aria-label="Carousel Navigation Controls"
         >

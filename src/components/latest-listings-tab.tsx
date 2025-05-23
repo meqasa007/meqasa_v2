@@ -3,19 +3,6 @@ import type { ListingDetails } from "@/types";
 import PropertyListings from "./property-listings";
 import { useMemo } from "react";
 
-/**
- * Represents a property listing with essential details.
- * @typedef {Object} Listing
- * @property {string} detailreq - The detail request identifier
- * @property {string} image - URL of the property image
- * @property {string} streetaddress - The street address of the property
- * @property {string} bathroomcount - Number of bathrooms (renamed from baths)
- * @property {string} bedroomcount - Number of bedrooms (renamed from beds)
- * @property {string} garages - Number of garages
- * @property {string} title - The property title
- * @property {string} contract - The contract type
- * @property {string} price - The property price
- */
 type Listing = Pick<
   ListingDetails,
   | "detailreq"
@@ -32,14 +19,6 @@ type Listing = Pick<
   bedroomcount: string;
 };
 
-/**
- * Props for the LatestListingsTab component.
- * @interface LatestListingsTabProps
- * @property {Listing[]} rentListings - Array of properties available for rent
- * @property {Listing[]} saleListings - Array of properties available for sale
- * @property {boolean} [isLoading=false] - Whether the listings are currently loading
- * @property {Error|null} [error=null] - Error object if loading failed
- */
 interface LatestListingsTabProps {
   rentListings: Listing[];
   saleListings: Listing[];
@@ -47,30 +26,6 @@ interface LatestListingsTabProps {
   error?: Error | null;
 }
 
-/**
- * A component that renders a tabbed interface for viewing latest property listings.
- *
- * @component
- * @example
- * ```tsx
- * <LatestListingsTab
- *   rentListings={rentProperties}
- *   saleListings={saleProperties}
- *   isLoading={false}
- *   error={null}
- * />
- * ```
- *
- * @param {LatestListingsTabProps} props - The component props
- * @returns {JSX.Element} A tabbed interface showing rent and sale listings
- *
- * @remarks
- * - The component displays two tabs: "For Rent" and "For Sale"
- * - Each tab shows a list of properties using the PropertyListings component
- * - If no properties are available, a message is displayed
- * - Loading and error states are handled with appropriate UI feedback
- * - The component is fully accessible with proper ARIA attributes
- */
 export function LatestListingsTab({
   rentListings,
   saleListings,
@@ -100,7 +55,7 @@ export function LatestListingsTab({
   return (
     <Tabs defaultValue="rent" className="w-full">
       <TabsList
-        className="grid w-[400px] grid-cols-2"
+        className="grid w-full md:w-[400px] grid-cols-2"
         aria-label="Property listing categories"
       >
         {tabs.map((tab) => (

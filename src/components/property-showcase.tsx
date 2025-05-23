@@ -133,7 +133,7 @@ function PropertyShowcaseImages({
                     alt={`Property image ${index + 2}`}
                     width={450}
                     height={300}
-                    className="w-full h-full object-cover cursor-pointer hover:opacity-95 transition-opacity"
+                    className="w-full h-[200px] md:h-full object-cover cursor-pointer hover:opacity-95 transition-opacity"
                     sizes="(min-width: 1024px) 33vw, 100vw"
                     onError={() => handleImageError(index + 1)}
                     placeholder="blur"

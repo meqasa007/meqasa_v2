@@ -18,8 +18,8 @@ export default function ProjectLoading() {
       </Shell>
 
       {/* Hero image skeleton */}
-      <div className="relative w-full h-[450px] bg-gray-200 mb-4">
-        <Skeleton className="w-full h-full" />
+      <div className="relative w-full h-[200px] md:h-[450px] bg-gray-200 mb-4">
+        <Skeleton className="w-full h-[200px] md:h-full" />
       </div>
 
       <Shell>

@@ -10,6 +10,7 @@ import { PlaceholderImage } from "./placeholder-image";
 import { AspectRatio } from "./ui/aspect-ratio";
 import { Badge } from "./ui/badge";
 import { cn } from "@/lib/utils";
+import { AddFavoriteButton } from "./add-favorite-button";
 
 export type Listing = Pick<
   ListingDetails,
@@ -64,6 +65,10 @@ export default function PropertyCard({
   const cleanPath = detailreq.replace(/^https?:\/\/[^/]+\//, "");
   const formattedUrl = `listings${cleanPath}`;
 
+  // Extract listing ID from detailreq for the favorite button
+  const listingIdMatch = /-(\d+)$/.exec(cleanPath);
+  const listingId = parseInt(listingIdMatch?.[1] ?? "0", 10);
+
   return (
     <Card className="size-full rounded-xl p-0 relative gap-0 border-none shadow-none">
       <Link href={`/${formattedUrl}`} aria-label={title}>
@@ -97,6 +102,12 @@ export default function PropertyCard({
           <Badge className="absolute top-3 left-3 z-10 rounded-sm bg-brand-accent capitalize">
             {displayContract}
           </Badge>
+
+          {listingId > 0 && (
+            <div className="absolute top-2 right-2 z-10">
+              <AddFavoriteButton listingId={listingId} />
+            </div>
+          )}
         </CardHeader>
       </Link>
       <Link href={`/${formattedUrl}`} aria-label={title}>

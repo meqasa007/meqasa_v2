@@ -4,6 +4,7 @@ import type { DeveloperDetails } from "@/types";
 import React from "react";
 import { ProjectCard } from "./project-card";
 import { PropertyUnitCard } from "./property-unit-card";
+import UnitCard from "@/components/unit-card";
 
 export function DeveloperTabs({ developer }: { developer: DeveloperDetails }) {
   const pastProjects = developer?.projects?.filter(
@@ -68,7 +69,7 @@ export function DeveloperTabs({ developer }: { developer: DeveloperDetails }) {
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 lg:gap-8">
             {developer?.units?.map((unit, i) => (
               <React.Fragment key={i}>
-                <PropertyUnitCard unit={unit} />
+                <UnitCard unit={unit} />
               </React.Fragment>
             ))}
           </div>

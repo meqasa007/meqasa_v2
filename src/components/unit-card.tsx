@@ -1,6 +1,7 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useMemo } from "react";
 
 import { Icons } from "@/components/icons";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,33 +10,32 @@ import { PlaceholderImage } from "./placeholder-image";
 import { AspectRatio } from "./ui/aspect-ratio";
 import { Badge } from "./ui/badge";
 import { cn } from "@/lib/utils";
+import type { SimilarUnit } from "@/lib/get-unit-details";
+import type { Unit } from "@/types";
+import { AddFavoriteButton } from "./add-favorite-button";
 
-export type Unit = {
-  unitid: number;
-  terms: string;
-  unittype: string;
-  beds: number;
-  baths: number;
-  garages: number;
-  hasbalcony: number;
-  price: number;
-  floorarea: number;
-  unitname: string;
-  fullyfurnished: number;
-  availableunits: number;
-  sellingprice: number;
-  sellingpricecsign: string;
-  city: string;
-  address: string;
-  title: string;
-  coverphoto: string;
-  unittypename: string;
-  unittypeslug: string;
-};
-
-export default function UnitCard({ unit }: { unit: Unit }) {
+export default function UnitCard({ unit }: { unit: SimilarUnit | Unit }) {
   const [imgError, setImgError] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
+
+  // Create unit URL once to avoid duplication
+  const unitUrl = useMemo(() => {
+    const citySlug = unit.city?.split(" ").join("-")?.toLowerCase() || "";
+    const typeSlug =
+      unit.unittypename?.toLowerCase().split(" ").join("-") || "";
+    return `/developer-unit/${unit.beds}-bedroom-${typeSlug}-for-${unit.terms}-in-${citySlug}-unit-${unit.unitid}`;
+  }, [unit.beds, unit.city, unit.terms, unit.unitid, unit.unittypename]);
+
+  // Create alt text for image
+  const imageAlt = useMemo(
+    () =>
+      `${unit.title} - ${unit.beds} bedroom, ${unit.baths} bathroom property in ${unit.city}`,
+    [unit.title, unit.beds, unit.baths, unit.city],
+  );
+
+  // Handle image loading and error states
+  const handleImageError = () => setImgError(true);
+  const handleImageLoad = () => setIsLoading(false);
 
   return (
     <Card
@@ -44,9 +44,9 @@ export default function UnitCard({ unit }: { unit: Unit }) {
       aria-labelledby={`unit-title-${unit.unitid}`}
     >
       <Link
-        href={`/developer-unit/${unit.beds}-bedroom-${unit.unittypename.toLowerCase().split(" ").join("-")}-for-${unit.terms}-in-${unit.city.split(" ").join("-").toLowerCase()}-unit-${unit.unitid}`}
+        href={unitUrl}
         aria-label={`View details for ${unit.title}`}
-        className="focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-offset-2 rounded-xl"
+        className="focus:outline-none focus:ring-2 focus:ring-brand-accent rounded-xl block"
       >
         <CardHeader className="p-0 border-b border-b-gray-100 gap-0 rounded-xl shadow-elegant-sm">
           <AspectRatio ratio={4 / 3}>
@@ -57,12 +57,13 @@ export default function UnitCard({ unit }: { unit: Unit }) {
                   isLoading ? "opacity-0" : "opacity-100",
                 )}
                 src={`https://meqasa.com/uploads/imgs/${unit.coverphoto}`}
-                onError={() => setImgError(true)}
-                onLoad={() => setIsLoading(false)}
+                onError={handleImageError}
+                onLoad={handleImageLoad}
                 sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
                 fill
+                priority={false}
                 loading="lazy"
-                alt={`${unit.title} - ${unit.beds} bedroom, ${unit.baths} bathroom property in ${unit.city}`}
+                alt={imageAlt}
                 aria-hidden={isLoading}
               />
             ) : (
@@ -83,7 +84,6 @@ export default function UnitCard({ unit }: { unit: Unit }) {
 
           <div
             className="absolute top-3 left-3 z-10 flex gap-2"
-            role="status"
             aria-label="Property status"
           >
             <Badge
@@ -92,22 +92,18 @@ export default function UnitCard({ unit }: { unit: Unit }) {
             >
               {unit.terms === "sale" ? "For Sale" : "For Rent"}
             </Badge>
-            {unit.fullyfurnished === 1 && (
-              <Badge
-                className="rounded-sm bg-brand-primary capitalize"
-                aria-label="Property is furnished"
-              >
-                Furnished
-              </Badge>
-            )}
+          </div>
+          
+          <div className="absolute top-3 right-3 z-10">
+            <AddFavoriteButton listingId={Number(unit.unitid)} />
           </div>
         </CardHeader>
       </Link>
 
       <Link
-        href={`/developer-unit/${unit.beds}-bedroom-${unit.unittypename.toLowerCase().split(" ").join("-")}-for-${unit.terms}-in-${unit.city.split(" ").join("-").toLowerCase()}-unit-${unit.unitid}`}
+        href={unitUrl}
         aria-label={`View details for ${unit.title}`}
-        className="focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-offset-2 rounded-xl"
+        className="focus:outline-none focus:ring-2 focus:ring-brand-accent rounded-xl block"
       >
         <CardContent className="px-0 pb-0 space-y-1">
           <CardTitle
@@ -117,37 +113,22 @@ export default function UnitCard({ unit }: { unit: Unit }) {
             {unit.title}
           </CardTitle>
           <div>
-            <span
-              className="text-sm capitalize text-brand-muted line-clamp-1"
-              aria-label={`Location: ${unit.address}, ${unit.city}`}
-            >
+            <span className="text-sm capitalize text-brand-muted line-clamp-1">
               {unit.address}, {unit.city}
             </span>
-            <div
-              className="mt-1 flex items-center text-sm text-brand-muted"
-              aria-label={`${unit.beds} bedrooms, ${unit.baths} bathrooms, ${unit.floorarea} square meters`}
-            >
-              {unit.beds} Beds{" "}
+            <div className="mt-1 flex items-center text-sm text-brand-muted">
+              <span>{unit.beds} Beds</span>
               <Dot
                 className="h-[12px] w-[12px] text-brand-accent"
                 aria-hidden="true"
-              />{" "}
-              {unit.baths} Baths{" "}
+              />
+              <span>{unit.baths} Baths</span>
               <Icons.dot
                 className="h-[12px] w-[12px] text-brand-accent"
                 aria-hidden="true"
-              />{" "}
-              {unit.floorarea} m²
+              />
+              <span>{unit.floorarea} m²</span>
             </div>
-            {unit.availableunits > 0 && (
-              <div
-                className="mt-2 text-sm text-brand-accent font-medium"
-                role="status"
-                aria-label={`${unit.availableunits} units available`}
-              >
-                {unit.availableunits} Units Available
-              </div>
-            )}
           </div>
         </CardContent>
       </Link>

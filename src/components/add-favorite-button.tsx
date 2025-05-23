@@ -6,22 +6,27 @@ import { Heart } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
-interface FavoriteButtonProps {
-  projectId: number;
+interface AddFavoriteButtonProps {
   className?: string;
+  listingId: number;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function FavoriteButton({ projectId, className }: FavoriteButtonProps) {
+export function AddFavoriteButton({
+  listingId,
+  className,
+}: AddFavoriteButtonProps) {
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const toggleFavorite = () => {
+  const toggleFavorite = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent triggering the carousel image click
+    e.preventDefault(); // Prevent any navigation
+
     const newState = !isFavorite;
     setIsFavorite(newState);
 
     if (newState) {
       toast.success("Added to favorites", {
-        description: "This project has been added to your favorites",
+        description: "This property has been added to your favorites",
         action: {
           label: "Undo",
           onClick: () => {
@@ -32,7 +37,7 @@ export function FavoriteButton({ projectId, className }: FavoriteButtonProps) {
       });
     } else {
       toast("Removed from favorites", {
-        description: "This project has been removed from your favorites",
+        description: "This property has been removed from your favorites",
       });
     }
   };
@@ -42,20 +47,21 @@ export function FavoriteButton({ projectId, className }: FavoriteButtonProps) {
       variant="outline"
       onClick={toggleFavorite}
       className={cn(
-        "gap-2 transition-colors hover:bg-rose-50",
+        "p-2 h-auto w-auto rounded-full bg-white/80 backdrop-blur-sm hover:bg-white shadow-md",
         isFavorite &&
-          "bg-brand-primary/20 text-brand-primary hover:text-brand-primary hover:bg-rose-100",
+          "bg-white text-brand-primary hover:text-brand-primary hover:bg-white",
         className,
       )}
       aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
     >
       <Heart
         className={cn(
-          "h-4 w-4 transition-colors",
-          isFavorite && "fill-current",
+          "h-8 w-8 transition-colors",
+          isFavorite
+            ? "fill-brand-primary text-brand-primary"
+            : "text-gray-600",
         )}
       />
-      <span>{isFavorite ? "Remove from favorites" : "Add to favorites"}</span>
     </Button>
   );
 }

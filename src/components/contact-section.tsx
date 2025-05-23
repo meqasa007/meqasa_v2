@@ -28,11 +28,13 @@ export default function ContactSection({
           alt={name}
           width={80}
           height={80}
-          className="object-cover"
+          className="object-contain w-full h-full"
         />
       </div>
 
-      <h2 className="text-xl font-bold text-brand-accent mb-2">{name}</h2>
+      <h2 className="text-center text-xl font-bold text-brand-accent mb-2">
+        {name}
+      </h2>
 
       <div className="flex items-center gap-2 mb-6">
         <span className="text-brand-blue">
