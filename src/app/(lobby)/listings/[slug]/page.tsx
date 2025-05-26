@@ -7,7 +7,6 @@ import ContactCard from "@/components/contact-card";
 import ContactSection from "@/components/contact-section";
 import ContentSection from "@/components/content-section";
 import { DynamicCarousel } from "@/components/dynamic-carousel";
-import { AddFavoriteButton } from "@/components/add-favorite-button";
 import { Icons } from "@/components/icons";
 import LeaseOptions from "@/components/lease-option";
 import MortgageCalculator from "@/components/mortgage-calculator";
