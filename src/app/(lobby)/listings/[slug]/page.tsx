@@ -7,7 +7,6 @@ import ContactCard from "@/components/contact-card";
 import ContactSection from "@/components/contact-section";
 import ContentSection from "@/components/content-section";
 import { DynamicCarousel } from "@/components/dynamic-carousel";
-import { AddFavoriteButton } from "@/components/add-favorite-button";
 import { Icons } from "@/components/icons";
 import LeaseOptions from "@/components/lease-option";
 import MortgageCalculator from "@/components/mortgage-calculator";
@@ -315,26 +314,6 @@ export default async function DetailsPage({
                 <Amenities amenities={listingDetail.amenities} />
               </ContentSection>
             ) : null}
-
-            {/* Debug data being passed to PropertyInsight */}
-            {/* {(() => {
-              console.log("Raw listingDetail:", listingDetail);
-              console.log("Raw similars:", listingDetail.similars);
-
-              const debugData = {
-                price: listingDetail.price ?? "No price",
-                floorarea: listingDetail.floorarea ?? "No floor area",
-                similars: listingDetail.similars.map((s) => ({
-                  price: s.price ?? "No price",
-                  floorarea: s.floorarea ?? "No floor area",
-                  beds: s.beds ?? "No beds",
-                  contract: s.contract ?? "No contract",
-                  location: s.location ?? "No location",
-                })),
-              };
-              console.log("Processed debug data:", debugData);
-              return null;
-            })()} */}
 
             <PropertyInsight />
           </div>
