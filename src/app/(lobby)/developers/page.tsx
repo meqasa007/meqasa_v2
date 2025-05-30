@@ -81,11 +81,11 @@ export default function DevelopersPage() {
         <div className="grid grid-cols-1 lg:grid-cols-[2fr,1fr] gap-8">
           <div>
             <header className="mb-8 text-b-accent">
-              <h1 className="mb-2 text-lg font-bold leading-tight tracking-tighter text-b-accent md:text-xl">
+              <h1 className="mb-2 text-lg font-bold leading-tight tracking-tighter text-brand-accent md:text-xl">
                 Find a Developer
               </h1>
               <div className="w-full">
-                <SearchInput data={developers} path="/projects-by-developer" />
+                <SearchInput data={developers} path="projects-by-developer" />
               </div>
             </header>
             <div className="space-y-8">

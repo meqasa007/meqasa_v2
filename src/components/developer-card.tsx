@@ -4,10 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import {
-  Dot,
-  MapPin
-} from "lucide-react";
+import { Dot, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -47,7 +44,7 @@ export function DeveloperCard({ developer, className }: DeveloperCardProps) {
   return (
     <Card
       className={cn(
-        "flex flex-col overflow-hidden rounded-xl border-0 text-b-accent shadow md:border md:shadow-sm p-0 gap-3",
+        "flex flex-col overflow-hidden rounded-xl border border-gray-200 text-b-accent shadow-sm p-0 gap-3",
         className,
       )}
       role="article"
@@ -132,27 +129,25 @@ export function DeveloperCard({ developer, className }: DeveloperCardProps) {
           >
             <div className="flex">
               <div className="grow">
-                <h3 className="mb-1.5 text-base text-brand-accent font-bold md:text-lg">
+                <h3 className="mb-1.5 text-lg text-brand-accent font-bold capitalize">
                   {developer.companyname}
                 </h3>
-                <div className="mb-1.5 flex items-center gap-2">
-                  <MapPin
-                    className="h-5 w-5 text-brand-primary"
-                    strokeWidth="1.3"
-                    aria-hidden="true"
-                  />
-                  <p className="line-clamp-1 text-sm text-brand-muted">
-                    {developer.address}
-                  </p>
+                <div className="flex items-center gap-2 text-brand-muted mb-2">
+                  <MapPin className="w-5 h-5 text-red-400 flex-shrink-0" />
+                  <span className="line-clamp-1">
+                    {developer.address !== ""
+                      ? developer.address
+                      : "Not Available"}
+                  </span>
                 </div>
-                <div className="mb-2 flex items-center text-brand-accent gap-1.5 text-sm font-normal md:text-base">
+                <div className="mb-2 flex items-center text-brand-accent gap-1.5 text-sm font-normal">
                   <span>{developer.unitcount} units</span>
                   <Dot aria-hidden="true" />
                   <span>{developer.prcount} projects</span>
                 </div>
               </div>
             </div>
-            <p className="line-clamp-2 text-sm text-brand-muted">
+            <p className="text-brand-muted leading-relaxed ">
               {developer.about}
             </p>
           </Link>

@@ -23,6 +23,8 @@ import { cn, formatNumber } from "@/lib/utils";
 import { BathIcon, BedIcon, ParkingSquare, Square } from "lucide-react";
 import Link from "next/link";
 import ProjectVideo from "../../development-projects/_component/project-video";
+import { getDevelopments } from "@/lib/get-all-developments";
+import { getAllAgents } from "@/lib/get-all-agents";
 
 export default async function DetailsPage({
   params,
@@ -30,6 +32,8 @@ export default async function DetailsPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const data = await getAllAgents();
+  console.log("Agents Data:", data);
 
   // Extract listing ID more reliably
   const match = /-(\d+)$/.exec(slug);
